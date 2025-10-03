@@ -140,7 +140,9 @@ new.cluster.ids <- c("Enterocytes","Stem cells","Stem cells","Enterocytes","Gobl
                      "Enterocytes","Enterocytes")
 names(new.cluster.ids) <- levels(intestineHuman)
 intestineHuman <- RenameIdents(intestineHuman, new.cluster.ids)
-
+#saveData
+saveRDS(intestineHuman,"/Users/vandana/Desktop/Vandana/Qianglab/intestineassigned.rds")
+            
 #Normalize brain section data, perform dimensional reduction and assign cell identities 
 brainHuman <- SCTransform(brainHuman, assay = "Xenium")
 brainHuman <- RunPCA(brainHuman, assay = "SCT", verbose = FALSE)
@@ -148,33 +150,6 @@ brainHuman<-RunHarmony(object=brainHuman, group.by.vars="sample")
 brainHuman <- RunUMAP(brainHuman, dims = 1:30, reduction="harmony")
 brainHuman <- FindNeighbors(brainHuman, reduction = "pca", dims = 1:30)
 brainHuman <- FindClusters(brainHuman, resolution = 10.0)
-
-
-new.cluster.ids <- c("Enterocytes","Stem cells","Stem cells","Enterocytes","Goblet cells","Enterocytes",
-                     "TA cells","Enterocytes","Stem cells","Enterocytes","Stem cells",
-                     "TA cells","EECs","Goblet cells","TA cells","Goblet cells",
-                     "Enterocytes","Enterocytes","Enterocytes","Enterocytes","Enterocytes",
-                     "Enterocytes","Goblet cells","Enterocytes","Enterocytes","Enterocytes",
-                     "Enterocytes","Stem cells","Enterocytes","Enterocytes","Goblet cells",
-                     "EECs","Stem cells","Enterocytes","Enterocytes","Goblet cells",
-                     "EECs","Goblet cells","Goblet cells","Goblet cells","EECs",
-                     "TA cells","Enterocytes","Goblet cells","Enterocytes","TA cells",
-                     "Enterocytes","Stem cells","Stem cells","TA cells","Goblet cells",
-                     "Enterocytes","Enterocytes")
-
-features<-c("GLS","GRIN1","SLC17A6","GRIN2B","SATB2","TBR1")
-features<-c("NEUROD2","ASCL1")
-features<-c("AQP4","SLC1A2")
-features<-c("HES1","HES5","PAX6","GLI3","SOX2")
-features<-c("GAD2","VIP","ARX")
-features<-c("TSPAN7")
-features <- c("VSX2","OTX2","GNB3")
-
-
-features<-c("GLS","GRIN1","SLC17A6","GRIN2B","SATB2","TBR1",
-            "NEUROD2","ASCL1","AQP4","SLC1A2","HES1",
-            "HES5","PAX6","GLI3","SOX2","GAD2",
-            "VIP","ARX","TSPAN7","VSX2","OTX2","GNB3","MAP2")
 
 new.cluster.ids <- c("0","1","2","Glutamatergic Neurons","Astrocytes","Glutamatergic Neurons",
                      "6","Glutamatergic Neurons","GABAergic Neurons","Glutamatergic Neurons","GABAergic Neurons",
@@ -346,7 +321,6 @@ names(new.cluster.ids) <- levels(brainHuman)
 brainHuman <- RenameIdents(brainHuman, new.cluster.ids)
 
 
-
 new.cluster.ids <- c("GABAergic Neurons","GABAergic Neurons","2","Glutamatergic Neurons","Astrocytes",
                      "Immune cells","GABAergic Neurons",
                      "Radial glial cells",
@@ -381,8 +355,6 @@ new.cluster.ids <- c("GABAergic Neurons","Pre-myelinating oligodendrocytes","Glu
 names(new.cluster.ids) <- levels(brainHuman)
 brainHuman <- RenameIdents(brainHuman, new.cluster.ids)
 
-
-
 new.cluster.ids <- c("GABAergic Neurons","Pre-myelinating oligodendrocytes","Glutamatergic Neurons","Astrocytes+Radial glial cells",
                      "Endothelial cells",
                      "Intermediate progenitors","infiltrating T cells",
@@ -390,14 +362,15 @@ new.cluster.ids <- c("GABAergic Neurons","Pre-myelinating oligodendrocytes","Glu
 names(new.cluster.ids) <- levels(brainHuman)
 brainHuman <- RenameIdents(brainHuman, new.cluster.ids)
 
-
 new.cluster.ids <- c("GABAergic Neurons","Pre-myelinating oligodendrocytes","Glutamatergic Neurons","Astrocytes+Radial glial cells",
                      "Endothelial cells",
                      "Intermediate progenitors","Non-neural cells",
                      "Non-neural cells")
 names(new.cluster.ids) <- levels(brainHuman)
 brainHuman <- RenameIdents(brainHuman, new.cluster.ids)
-
+#saveData            
+saveRDS(brainHuman,"/Users/vandana/Desktop/Vandana/Qianglab/brainhumanassigned.rds")
+            
 #Normalize liver section data, perform dimensional reduction and assign cell identities 
 liverHuman <- SCTransform(liverHuman, assay = "Xenium")
 liverHuman <- RunPCA(liverHuman, assay = "SCT", verbose = FALSE)
@@ -416,3 +389,10 @@ new.cluster.ids <- c("Hepatocytes","Hepatocytes","Hepatocytes","Hepatocytes","He
 names(new.cluster.ids) <- levels(liverHuman)
 liverHuman <- RenameIdents(liverHuman, new.cluster.ids)
 
+new.cluster.ids <- c("Hepatocytes","Endothelial cells",
+                     "Hepatocytes","Other cells",
+                     "Hepatic stellate cells","Hepatoblasts")
+names(new.cluster.ids) <- levels(liverHuman)
+liverHuman <- RenameIdents(liverHuman, new.cluster.ids)
+#saveData            
+saveRDS(liverHuman,"/Users/vandana/Desktop/Vandana/Qianglab/liverassigned.rds")
