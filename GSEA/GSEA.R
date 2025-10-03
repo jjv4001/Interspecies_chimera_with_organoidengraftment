@@ -215,8 +215,41 @@ Idents(all)<-all$Identity
 #save merged data
 saveRDS(all, file=paste("allsamplesintegrated1.rds", sep=""))
 
-#find top expressed markers in the adult
+#Load new batch of iPSC derived intestinal organoids
+iPSCnew<-readRDS("/athena/chenlab/scratch/jjv4001/Qianglab/intestinejjv.rds")
+#Load initial data merged and integrated data
+merged<-readRDS("/athena/chenlab/scratch/jjv4001/Qianglab/allsamplesintegrated1.rds.rds")
+#specify identity and sampletype
+iPSCnew$SampleType<-rep("iPSCnew")
+#merge new iPSC data with other organoid and human fetal and adult intestinal samples
+all<-merge(x=merged, y=iPSCnew)
+all<- JoinLayers(all)
+#normalize merged data
+all <- NormalizeData(all)
+all <- FindVariableFeatures(all)
+#scale merged data
+all <- ScaleData(all)
+all <- RunPCA(all)
+all <- RunUMAP(all, dims = 1:15, reduction = "pca", reduction.name = "umap.unintegrated")
+library(harmony)
+#integrate merged data
+all<-RunHarmony(object=all, group.by.vars="SampleType")
+all <- RunUMAP(all, dims = 1:15, reduction = "harmony", reduction.name = "umap.integrated")
+#assign identities by SampleType
 Idents(all)<-all$SampleType
+#filter out old iPSC data
+all<-subset(all, idents="iPSC", invert=TRUE)
+#normalize merged data
+all <- NormalizeData(all)
+all <- FindVariableFeatures(all)
+#scale merged data
+all <- ScaleData(all)
+all <- RunPCA(all)
+all <- RunUMAP(all, dims = 1:15, reduction = "pca", reduction.name = "umap.unintegrated")
+#save merged data
+saveRDS(all, file=paste("allsamplesintegrated2.rds", sep=""))
+
+#find top expressed markers in the adult
 adult.markers<-FindMarkers(all, ident.1 ="adult" , ident.2 = "fetal")
 adult.markers.sig<-subset(adult.markers, p_val_adj<0.05)
 #remove immunoglobulin genes 
